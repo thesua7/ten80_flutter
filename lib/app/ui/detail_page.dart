@@ -6,6 +6,8 @@ import '../controllers/detail_controller.dart';
 
 
 class DetailPage extends GetView<DetailController> {
+  const DetailPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,8 +17,8 @@ class DetailPage extends GetView<DetailController> {
             Obx(
                   () => IconButton(
                 icon: Icon(
-                  controller.isFavorite() ? Icons.favorite : Icons.favorite_border,
-                  color: controller.isFavorite() ? Colors.red : null,
+                  controller.isFavoriteRx.value ? Icons.favorite : Icons.favorite_border,
+                  color: controller.isFavoriteRx.value? Colors.red : null,
                 ),
                 onPressed: controller.toggleFavorite,
               ),

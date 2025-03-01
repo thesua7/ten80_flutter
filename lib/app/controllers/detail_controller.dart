@@ -17,10 +17,13 @@ class DetailController extends GetxController {
   var isDownloading = false.obs;
   var isSettingWallpaper = false.obs;
 
+  var isFavoriteRx = false.obs;
+
   @override
   void onInit() {
     super.onInit();
     photoId.value = Get.arguments['photoId'];
+    isFavoriteRx.value = isFavorite(photoId.value);
     fetchPhotoDetails();
   }
 
@@ -38,17 +41,20 @@ class DetailController extends GetxController {
     }
   }
 
-  bool isFavorite() {
-    return _storageService.isFavorite(photoId.value);
+  bool isFavorite(String photoId) {
+    return _storageService.isFavorite(photoId);
   }
 
   void toggleFavorite() {
-    if (isFavorite()) {
+    if (isFavorite(photoId.value)) {
+      isFavoriteRx.value = false;
       _storageService.removeFavorite(photoId.value);
     } else {
+      isFavoriteRx.value = true;
+
       _storageService.saveFavorite(photoId.value);
     }
-    update(); // Update UI
+    // update(); // Update UI
   }
 
   Future<void> downloadAndSetWallpaper(int wallpaperType) async {
